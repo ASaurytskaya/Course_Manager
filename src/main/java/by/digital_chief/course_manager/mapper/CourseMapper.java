@@ -3,6 +3,7 @@ package by.digital_chief.course_manager.mapper;
 import by.digital_chief.course_manager.core.dto.CourseCreateDto;
 import by.digital_chief.course_manager.core.dto.CourseDto;
 import by.digital_chief.course_manager.repository.entity.Course;
+import by.digital_chief.course_manager.repository.entity.Trainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -36,13 +37,13 @@ public class CourseMapper {
                 collect(Collectors.toList());
     }
 
-    public Course toEntity(CourseCreateDto dto) {
+    public Course toEntity(CourseCreateDto dto, Trainer trainer) {
         logger.info("Converting {} DTO to course", dto.getTitle());
 
         Course course = new Course();
         course.setTitle(dto.getTitle());
         course.setDescription(dto.getDescription());
-        course.setTrainerId(dto.getTrainerId());
+        course.setTrainer(trainer);
 
         logger.info("Course entity {} created", course.getTitle());
         return course;

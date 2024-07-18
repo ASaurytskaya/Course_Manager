@@ -2,6 +2,8 @@ package by.digital_chief.course_manager.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class CourseDto {
 
     private int id;
@@ -43,5 +45,17 @@ public class CourseDto {
 
     public void setTrainerId(int trainerId) {
         this.trainerId = trainerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CourseDto courseDto)) return false;
+        return getId() == courseDto.getId() && getTrainerId() == courseDto.getTrainerId() && Objects.equals(getTitle(), courseDto.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getTrainerId());
     }
 }

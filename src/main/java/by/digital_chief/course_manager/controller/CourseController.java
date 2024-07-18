@@ -2,7 +2,9 @@ package by.digital_chief.course_manager.controller;
 
 import by.digital_chief.course_manager.core.dto.CourseCreateDto;
 import by.digital_chief.course_manager.core.dto.CourseDto;
+import by.digital_chief.course_manager.repository.entity.Trainer;
 import by.digital_chief.course_manager.service.api.ICourseService;
+import by.digital_chief.course_manager.service.api.ITrainerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,16 +20,19 @@ public class CourseController {
     private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
 
     private final ICourseService courseService;
+    private final ITrainerService trainerService;
 
-    public CourseController(ICourseService courseService) {
+    public CourseController(ICourseService courseService, ITrainerService trainerService) {
         this.courseService = courseService;
+        this.trainerService = trainerService;
     }
 
     @PostMapping
     public ResponseEntity<CourseDto> createCourse(@RequestBody CourseCreateDto dto) {
         logger.info("Received request to create course: {}", dto.getTitle());
 
-        CourseDto createdCourse = courseService.createCourse(dto);
+        Trainer trainer = trainerService.findById(dto.getTrainerId());
+        CourseDto createdCourse = courseService.createCourse(dto, trainer);
 
         logger.info("Course created successfully with id: {}", createdCourse.getId());
         return new ResponseEntity<>(createdCourse, HttpStatus.CREATED);

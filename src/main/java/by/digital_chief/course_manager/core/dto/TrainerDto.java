@@ -1,5 +1,7 @@
 package by.digital_chief.course_manager.core.dto;
 
+import java.util.Objects;
+
 public class TrainerDto {
     private int id;
 
@@ -19,5 +21,17 @@ public class TrainerDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TrainerDto that)) return false;
+        return getId() == that.getId() && Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }

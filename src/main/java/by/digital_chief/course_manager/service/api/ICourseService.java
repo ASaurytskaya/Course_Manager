@@ -2,12 +2,13 @@ package by.digital_chief.course_manager.service.api;
 
 import by.digital_chief.course_manager.core.dto.CourseCreateDto;
 import by.digital_chief.course_manager.core.dto.CourseDto;
+import by.digital_chief.course_manager.repository.entity.Trainer;
 
 import java.util.List;
 
 public interface ICourseService {
 
-    CourseDto createCourse(CourseCreateDto dto);
+    CourseDto createCourse(CourseCreateDto dto, Trainer trainer);
 
     List<CourseDto> getAllCourses();
 

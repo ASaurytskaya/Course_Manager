@@ -4,6 +4,7 @@ import by.digital_chief.course_manager.core.dto.CourseDto;
 import by.digital_chief.course_manager.core.dto.TrainerCreateDto;
 import by.digital_chief.course_manager.core.dto.TrainerDto;
 import by.digital_chief.course_manager.exception.BadRequestException;
+import by.digital_chief.course_manager.exception.CourseNotFoundException;
 import by.digital_chief.course_manager.exception.TrainerNotFoundException;
 import by.digital_chief.course_manager.mapper.TrainerMapper;
 import by.digital_chief.course_manager.repository.api.ITrainerRepository;
@@ -105,14 +106,19 @@ public class TrainerService implements ITrainerService {
 
         trainerRepository.delete(trainer);
 
-        for(CourseDto courseDto : courseService.getCoursesByTrainer(id)) {
-            courseService.deleteCourse(courseDto.getId(), courseDto);
-        }
+        try {
+            for(CourseDto courseDto : courseService.getCoursesByTrainer(id)) {
+                courseService.deleteCourse(courseDto.getId(), courseDto);
+            }
+        } catch (CourseNotFoundException ignored) {}
+
 
         logger.info("Deleted trainer with id: {}", id);
     }
 
-    private Trainer findById(int id) {
+    @Transactional(readOnly = true)
+    @Override
+    public Trainer findById(int id) {
         return trainerRepository.findById(id)
                 .orElseThrow(() -> {
                     logger.warn("Trainer with id {} not found", id);

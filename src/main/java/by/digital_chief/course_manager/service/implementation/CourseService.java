@@ -7,6 +7,7 @@ import by.digital_chief.course_manager.exception.CourseNotFoundException;
 import by.digital_chief.course_manager.mapper.CourseMapper;
 import by.digital_chief.course_manager.repository.api.ICourseRepository;
 import by.digital_chief.course_manager.repository.entity.Course;
+import by.digital_chief.course_manager.repository.entity.Trainer;
 import by.digital_chief.course_manager.service.api.ICourseService;
 
 import org.slf4j.Logger;
@@ -33,10 +34,10 @@ public class CourseService implements ICourseService {
 
     @Transactional
     @Override
-    public CourseDto createCourse(CourseCreateDto dto) {
+    public CourseDto createCourse(CourseCreateDto dto, Trainer trainer) {
         logger.info("Saving course with name: {}", dto.getTitle());
 
-        Course course  = courseRepository.save(mapper.toEntity(dto));
+        Course course  = courseRepository.save(mapper.toEntity(dto, trainer));
 
         logger.info("Saved course with id: {}", dto.getTitle());
         return mapper.toDto(course);

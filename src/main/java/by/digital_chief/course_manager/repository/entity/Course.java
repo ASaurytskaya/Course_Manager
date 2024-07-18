@@ -14,8 +14,9 @@ public class Course {
 
     private String description;
 
-    @Column(name = "trainer_id", nullable = false)
-    private int trainerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainer_id", nullable = false)
+    private Trainer trainer;
 
     public int getId() {
         return id;
@@ -41,11 +42,15 @@ public class Course {
         this.description = description;
     }
 
-    public int getTrainerId() {
-        return trainerId;
+    public Trainer getTrainer() {
+        return trainer;
     }
 
-    public void setTrainerId(int trainerId) {
-        this.trainerId = trainerId;
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
+
+    public int getTrainerId() {
+        return trainer.getId();
     }
 }
